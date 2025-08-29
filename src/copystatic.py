@@ -1,8 +1,8 @@
 import os
 import shutil
 
-
 def copy_files_recursive(source_dir_path, dest_dir_path):
+    """Copies files recursively from source to destination."""
     if not os.path.exists(dest_dir_path):
         os.mkdir(dest_dir_path)
 
@@ -11,6 +11,9 @@ def copy_files_recursive(source_dir_path, dest_dir_path):
         dest_path = os.path.join(dest_dir_path, filename)
         print(f" * {from_path} -> {dest_path}")
         if os.path.isfile(from_path):
-            shutil.copy(from_path, dest_path)
+            try:
+                shutil.copy(from_path, dest_path)
+            except OSError as e:
+                print(f"Error copying {from_path}: {e}")
         else:
             copy_files_recursive(from_path, dest_path)
